@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Vicente's Raspeberry Wifi</title>
+
+<script>
+window.onload = function() {
+	scanNetworks();
+}
+
+function scanNetworks() {
+	xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+		document.getElementById('list_wlan_textarea').innerHTML = this.responseText;
+        }
+	xhttp.open('GET', "/cgi-bin/list_wlans.sh");
+	xhttp.send();
+}
+
+function setNetwork() {
+	xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE)
+			scanNetworks()
+        }
+	option = document.querySelector('input[name="network"]:checked').value;
+	xhttp.open('GET', "/cgi-bin/connect_network.sh" + "?value=" + option + "&");
+	console.log("sdsa: " + option);
+	xhttp.send();
+}
+</script>
+
+</head>
+
+<body>
+<div>
+	<header><h1>Vicente's Rasberry WIFI selector</h1></header>
+	<div>
+		<p>Available Wifi networks:</p>
+                <button id='SCAN_NETS' onclick='scanNetworks()'>Scan</button>
+
+		<p/>
+		<div>
+			<textarea id="list_wlan_textarea" cols="80" rows="10"/></textarea>
+		</div>
+
+		<p/>
+
+		<p>Choose a newtork to connect:</p>
+
+		<form action="setNetwork()">
+			<input type="radio" name="network" onclick="setNetwork()" value="1">Vodafone Hotspot<br>
+			<input type="radio" name="network" onclick="setNetwork()" value="2">Vodafone Homespot<br>
+		</form>
+
+		<p>If you are happy with this buy a beer to <vicente.bolea@gmail.com> on Paypal/Coinbase</p>
+	</div>
+</div>
+</body>
