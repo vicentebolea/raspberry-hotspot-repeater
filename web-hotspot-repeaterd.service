@@ -1,0 +1,13 @@
+[Unit]
+Description=Wifi repeater webapp
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/bin/busybox httpd -f -h /www
+
+[Install]
+WantedBy=multi-user.target
